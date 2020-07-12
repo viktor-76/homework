@@ -39,24 +39,20 @@ public class Main {
 
     // Посчитать и вывести в консоль количество уникальных слов (без учёта регистра), знаки препинания, тире и пр. убрать, вывести количество повторений слов
     public  static  void printUniqueWords(String text) {
+        text = text.replaceAll(" - ", " ");
         // удаляем не пробелы, буквы и цифры
-        text = text.replaceAll("[^\\w\\s]", "");
+        text = text.replaceAll("[^\\w\\s-]", " ");
         // удаляем лишние пробелы
-        text = text.replaceAll("  *", " ");
+        text = text.replaceAll("  *", " ").toLowerCase();
         String[] words = text.split(" ");
         HashMap<String, Integer> bookUniqueWords = new HashMap<>();
         Integer wordCount = null;
         for (String word : words) {
             wordCount = 1;
-            if (bookUniqueWords.containsKey(word.toLowerCase())) {
-                for (Map.Entry<String, Integer> entry : bookUniqueWords.entrySet()) {
-                    if (entry.getKey().equals(word.toLowerCase())) {
-                        wordCount = entry.getValue() + 1;
-                    }
-                }
-
+            if (bookUniqueWords.containsKey(word)) {
+                wordCount = bookUniqueWords.get(word) + 1;
             }
-            bookUniqueWords.put(word.toLowerCase(), wordCount);
+            bookUniqueWords.put(word, wordCount);
         }
         for (Map.Entry<String, Integer> entry : bookUniqueWords.entrySet()) {
             System.out.println(entry.getKey() + " - " + entry.getValue());
